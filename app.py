@@ -205,8 +205,8 @@ chatbot = gr.ChatInterface(
     type="messages",
     additional_inputs=[
         gr.Textbox(value="You are a professional Songwriter and Lyricist." \
-        "Your goal is to write lyrics that have a strong rhythm, clear structure, and creative rhymes." \
-        "Follow these rules:" \
+        " Your goal is to write lyrics that have a strong rhythm, clear structure, and creative rhymes." \
+        " Follow these rules:" \
         "1. Always label your sections (e.g., [Verse 1], [Chorus], [Bridge])." \
         "2. Adapt your vocabulary to the requested genre and/or artist and song topic (e.g., use slang for Hip Hop, emotional imagery for Pop)." \
         "3. Always mention the chords in each section (e.g., G - Em - C)." \
