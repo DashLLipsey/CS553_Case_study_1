@@ -112,7 +112,101 @@ def respond(
     """
     client = InferenceClient(token=hf_token.token, model="openai/gpt-oss-20b")
 
-    messages = [{"role": "system", "content": system_message}]
+    # Creating example inputs and outputs for few shot learning
+    EXAMPLE_INPUT_1 = 'Make me lyrics and chords for a song in the style of Simon and Garfunkel about sitting through a computer science lecture'
+    EXAMPLE_OUTPUT_1 = """
+    'Fluorescent Afternoon'
+    Key: G 
+    Tempo: Easy, reflective folk
+    Verse:
+    G - Em - C - G - G - Em - C - D
+    Morning light through dusty panes  
+    Coffee cooling in my hand 
+    The screen glows blue with ancient code 
+    Only half of it is planned 
+    The professor clears his throat 
+    Like a ritual we all know 
+    I underline a word called theory 
+    But I don't know where it goes 
+    Chorus:
+    C - G - Em - C - C - G - D
+    Hello, pointers, my old friends 
+    I've come to misread you again 
+    Because a slide was softly creeping 
+    Left its syntax while I was sleeping 
+    And the thought that formed inside my brain 
+    Was interrupted once again 
+    By the hum of fluorescent afternoon 
+    """
+    EXAMPLE_INPUT_2 = 'Make me lyrics and chords for a song in the style of Travis Scott about someone driving to school'
+    EXAMPLE_OUTPUT_2 = """
+    'Late Bell (AM Drive)'
+    Key: F minor 
+    Tempo: Slow trap (≈ 130 BPM halftime feel) 
+    Hook:
+    Fm - Db - Ab - Eb - Fm - Db - Ab - Eb
+    I'm riding to school with the sun in my eyes 
+    Radio low but the bass still cries 
+    Running these lights, yeah I'm losing my time 
+    Late bell ringing but I'm still gonna slide 
+    Windows down, let the cold air bite 
+    Thoughts too loud in the early light 
+    I'm not awake but I'm still alive 
+    On the way to class, yeah I'm still gonna ride 
+    Verse:
+    Fm - Db - Ab - Eb - Fm - Db - Ab - Eb
+    Seat lean back, backpack on the floor 
+    Same street dreams that I had before 
+    Teachers talk but my mind elsewhere 
+    Trying find a future in the traffic glare 
+    Gas light on, but I'm pushing my luck 
+    Need more sleep, need way more trust 
+    Clock keep yelling that I'm behind 
+    But my soul moving faster than the hands of time 
+    """
+    EXAMPLE_INPUT_3 = 'Make me chords and lyrics for a song in the style of Nirvana about Charlie Kirk'
+    EXAMPLE_OUTPUT_3 = """
+    'Campus Static'
+    Style: Loud - quiet - LOUD 
+    Tuning: Standard (or Drop D if you wanna get grimy) 
+    Tempo: Sludgy mid-tempo 
+    Main progression: 
+    Verse:
+    Em - G - A - C - Em - G - A - C
+    T-shirt slogans, megaphone grin 
+    Selling answers in a paper-thin skin 
+    Talks real loud, says he's saving my soul 
+    But he's reading from a script he was sold 
+    Dorm room rage, hotel stage 
+    Same old war in a different age 
+    Says “think free” but it sounds rehearsed 
+    Like a bad idea wearing a tie and a curse 
+    Pre-chorus:
+    A - C - A - C
+    You say it's simple 
+    Like I'm dumb 
+    If I don't clap 
+    You say I've lost 
+    Chorus:
+    C - A - Em - G - C - A - Em - G
+    I don't need you 
+    Talking at me 
+    Like I'm broken 
+    Like I'm empty 
+    You don't scare me 
+    You just bore me 
+    Selling fear like 
+    It's conformity 
+    """
+
+    messages = [{"role": "system", "content": system_message},
+                {"role": "user", "content": EXAMPLE_INPUT_1},
+                {"role": "assistant", "content": EXAMPLE_OUTPUT_1},
+                {"role": "user", "content": EXAMPLE_INPUT_2},
+                {"role": "assistant", "content": EXAMPLE_OUTPUT_2},
+                {"role": "user", "content": EXAMPLE_INPUT_3},
+                {"role": "assistant", "content": EXAMPLE_OUTPUT_3}
+                ]
     messages.extend(history)
     messages.append({"role": "user", "content": message})
 
@@ -141,7 +235,16 @@ chatbot = gr.ChatInterface(
     respond,
     type="messages",
     additional_inputs=[
-        gr.Textbox(value="You are a groovy Chatbot.", label="System message"),
+        gr.Textbox(value="You are a professional Songwriter and Lyricist." \
+        "Your goal is to write lyrics that have a strong rhythm, clear structure, and creative rhymes." \
+        "Follow these rules:" \
+        "1. Always label your sections (e.g., [Verse 1], [Chorus], [Bridge])." \
+        "2. Maintain a consistent syllable count per line so the lyrics are singable." \
+        "3. Adapt your vocabulary to the requested genre (e.g., use slang for Hip Hop, emotional imagery for Pop)." \
+        "4. Always mention the key changes for each section and the whole song (e.g., G - Em - C)." \
+        "5. Always include the name of the song." \
+        "6. Always include some key features about this song(e.g., tempo, tuning, style)",
+        label="System message"),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
         gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature"),
         gr.Slider(
