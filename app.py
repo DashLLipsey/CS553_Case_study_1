@@ -116,8 +116,6 @@ def respond(
     EXAMPLE_INPUT_1 = 'Make me lyrics and chords for a song in the style of Simon and Garfunkel about sitting through a computer science lecture'
     EXAMPLE_OUTPUT_1 = """
     'Fluorescent Afternoon'
-    Key: G 
-    Tempo: Easy, reflective folk
     Verse:
     G - Em - C - G - G - Em - C - D
     Morning light through dusty panes  
@@ -141,8 +139,6 @@ def respond(
     EXAMPLE_INPUT_2 = 'Make me lyrics and chords for a song in the style of Travis Scott about someone driving to school'
     EXAMPLE_OUTPUT_2 = """
     'Late Bell (AM Drive)'
-    Key: F minor 
-    Tempo: Slow trap (≈ 130 BPM halftime feel) 
     Hook:
     Fm - Db - Ab - Eb - Fm - Db - Ab - Eb
     I'm riding to school with the sun in my eyes 
@@ -166,11 +162,7 @@ def respond(
     """
     EXAMPLE_INPUT_3 = 'Make me chords and lyrics for a song in the style of Nirvana about Charlie Kirk'
     EXAMPLE_OUTPUT_3 = """
-    'Campus Static'
-    Style: Loud - quiet - LOUD 
-    Tuning: Standard (or Drop D if you wanna get grimy) 
-    Tempo: Sludgy mid-tempo 
-    Main progression: 
+    'Campus Static' 
     Verse:
     Em - G - A - C - Em - G - A - C
     T-shirt slogans, megaphone grin 
@@ -240,11 +232,9 @@ chatbot = gr.ChatInterface(
         "Your goal is to write lyrics that have a strong rhythm, clear structure, and creative rhymes." \
         "Follow these rules:" \
         "1. Always label your sections (e.g., [Verse 1], [Chorus], [Bridge])." \
-        "2. Maintain a consistent syllable count per line so the lyrics are singable." \
-        "3. Adapt your vocabulary to the requested genre (e.g., use slang for Hip Hop, emotional imagery for Pop)." \
-        "4. Always mention the key changes for each section and the whole song (e.g., G - Em - C)." \
-        "5. Always include the name of the song." \
-        "6. Always include some key features about this song(e.g., tempo, tuning, style)",
+        "2. Adapt your vocabulary to the requested genre and/or artist and song topic (e.g., use slang for Hip Hop, emotional imagery for Pop)." \
+        "3. Always mention the chords in each section (e.g., G - Em - C)." \
+        "4. Always include the name of the song.",
         label="System message"),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
         gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature"),
