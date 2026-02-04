@@ -214,24 +214,12 @@ chatbot = gr.ChatInterface(
         label="System message"),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
         gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature"),
-        gr.Slider(
-            minimum=0.1,
-            maximum=1.0,
-            value=0.95,
-            step=0.05,
-            label="Top-p (nucleus sampling)",
-        ),
+        gr.Slider(minimum=0.1, maximum=1.0, value=0.95, step=0.05, label="Top-p (nucleus sampling)"),
+        gr.Checkbox(label="Use Local Model", value=False),
     ],
 )
 
-# with gr.Blocks() as demo:
-#     with gr.Sidebar():
-#         gr.LoginButton()
-#     chatbot.render()
 
-
-# if __name__ == "__main__":
-#     demo.launch()
 with gr.Blocks(css=fancy_css) as demo:
     with gr.Row():
         gr.Markdown("<h1 style='text-align: center;'> 🎵 Song Generator Chatbot 🎵</h1>")
