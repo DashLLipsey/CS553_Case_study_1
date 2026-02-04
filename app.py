@@ -134,7 +134,7 @@ def respond(
     use_local_model: bool,           # Use local machine or remote machine
 ):
     
-global pipe                          # Cache the local pipeline
+    global pipe                      # Cache the local pipeline
 
 # Build messages from history and prepend few-shot examples (Examples listed at the top)
 messages = [{"role": "system", "content": system_message},
