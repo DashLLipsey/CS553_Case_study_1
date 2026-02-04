@@ -136,61 +136,61 @@ def respond(
     
     global pipe                      # Cache the local pipeline
 
-# Build messages from history and prepend few-shot examples (Examples listed at the top)
-messages = [{"role": "system", "content": system_message},
-            {"role": "user", "content": EXAMPLE_INPUT_1},
-            {"role": "assistant", "content": EXAMPLE_OUTPUT_1},
-            {"role": "user", "content": EXAMPLE_INPUT_2},
-            {"role": "assistant", "content": EXAMPLE_OUTPUT_2},
-            {"role": "user", "content": EXAMPLE_INPUT_3},
-            {"role": "assistant", "content": EXAMPLE_OUTPUT_3}
-            ]
-messages.extend(history)
-messages.append({"role": "user", "content": message})
+    # Build messages from history and prepend few-shot examples (Examples listed at the top)
+    messages = [{"role": "system", "content": system_message},
+                {"role": "user", "content": EXAMPLE_INPUT_1},
+                {"role": "assistant", "content": EXAMPLE_OUTPUT_1},
+                {"role": "user", "content": EXAMPLE_INPUT_2},
+                {"role": "assistant", "content": EXAMPLE_OUTPUT_2},
+                {"role": "user", "content": EXAMPLE_INPUT_3},
+                {"role": "assistant", "content": EXAMPLE_OUTPUT_3}
+                ]
+    messages.extend(history)
+    messages.append({"role": "user", "content": message})
 
-response = ""
+    response = ""
 
-if use_local_model:
-    print("[MODE] local")
-    # Using local machine use the transformers pipeline to get model
-    from transformers import pipeline
-    if pipe is None:
-        pipe = pipeline(
-            "text-generation",
-            model="microsoft/Phi-3-mini-4k-instruct"  # Is this the model that we want?
+    if use_local_model:
+        print("[MODE] local")
+        # Using local machine use the transformers pipeline to get model
+        from transformers import pipeline
+        if pipe is None:
+            pipe = pipeline(
+                "text-generation",
+                model="microsoft/Phi-3-mini-4k-instruct"  # Is this the model that we want?
+            )
+
+        prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
+        outputs = pipe(
+            prompt,
+            max_new_tokens=max_tokens,
+            do_sample=True,
+            temperature=temperature,
+            top_p=top_p,
         )
-
-    prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
-    outputs = pipe(
-        prompt,
-        max_new_tokens=max_tokens,
-        do_sample=True,
-        temperature=temperature,
-        top_p=top_p,
-    )
-    # Just output the answer, remove the prompt
-    response = outputs[0]["generated_text"][len(prompt):]
-    yield response.strip()
-else:
-    print("[MODE] api")
-    if hf_token is None or not getattr(hf_token, "token", None):
-        yield "⚠️ Please log in with your Hugging Face account first."
-        return
-    # Use Hugging Face client and define model
-    client = InferenceClient(token=hf_token.token, model="openai/gpt-oss-20b")
-    for chunk in client.chat_completion(
-        messages,
-        max_tokens=max_tokens,
-        stream=True,
-        temperature=temperature,
-        top_p=top_p,
-    ):
-        choices = chunk.choices
-        token = ""
-        if len(choices) and choices[0].delta.content:
-            token = choices[0].delta.content
-        response += token
-        yield response
+        # Just output the answer, remove the prompt
+        response = outputs[0]["generated_text"][len(prompt):]
+        yield response.strip()
+    else:
+        print("[MODE] api")
+        if hf_token is None or not getattr(hf_token, "token", None):
+            yield "⚠️ Please log in with your Hugging Face account first."
+            return
+        # Use Hugging Face client and define model
+        client = InferenceClient(token=hf_token.token, model="openai/gpt-oss-20b")
+        for chunk in client.chat_completion(
+            messages,
+            max_tokens=max_tokens,
+            stream=True,
+            temperature=temperature,
+            top_p=top_p,
+        ):
+            choices = chunk.choices
+            token = ""
+            if len(choices) and choices[0].delta.content:
+                token = choices[0].delta.content
+            response += token
+            yield response
 
     """
     For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
