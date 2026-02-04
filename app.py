@@ -201,12 +201,13 @@ def respond(
 
     messages = [{"role": "system", "content": system_message},
                 {"role": "user", "content": EXAMPLE_INPUT_1},
-                {"role": "assistant", "content": EXAMPLE_OUTPUT_1},
-                '''{"role": "user", "content": EXAMPLE_INPUT_2},
+                {"role": "assistant", "content": EXAMPLE_OUTPUT_1}]
+    
+    '''{"role": "user", "content": EXAMPLE_INPUT_2},
                 {"role": "assistant", "content": EXAMPLE_OUTPUT_2},
                 {"role": "user", "content": EXAMPLE_INPUT_3},
                 {"role": "assistant", "content": EXAMPLE_OUTPUT_3}'''
-                ]
+                
     messages.extend(history)
     messages.append({"role": "user", "content": message})
 
