@@ -154,6 +154,7 @@ def respond(
         print("[MODE] local")
         # Using local machine use the transformers pipeline to get model
         from transformers import pipeline
+        import torch
         if pipe is None:
             pipe = pipeline(
                 "text-generation",
