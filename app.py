@@ -203,7 +203,6 @@ For information on how to customize the ChatInterface, peruse the gradio docs: h
 """
 chatbot = gr.ChatInterface(
     respond,
-    type="messages",
     additional_inputs=[
         gr.Textbox(value="You are a professional Songwriter and Lyricist." \
         " Your goal is to write lyrics that have a strong rhythm, clear structure, and creative rhymes." \
@@ -218,6 +217,7 @@ chatbot = gr.ChatInterface(
         gr.Slider(minimum=0.1, maximum=1.0, value=0.95, step=0.05, label="Top-p (nucleus sampling)"),
         gr.Checkbox(label="Use Local Model", value=False),
     ],
+    type="messages",
 )
 
 
