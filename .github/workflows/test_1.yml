@@ -15,13 +15,15 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Gradio (only)
-        run: pip install gradio==4.24.0
+      - name: Install dependencies
+        run: |
+          pip install pytest gradio[oauth]==4.24.0 huggingface_hub torch transformers
 
       - name: Print Gradio version
-        run: python -c "import gradio; print('Gradio version:', gradio.__version__)"
+        run: |
+          python -c "import gradio; print('Gradio version:', gradio.__version__)"
 
-      - name: Run pytest
+      - name: Run pytest with HF token
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: pytest -q
