@@ -17,12 +17,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-
-      - name: Print Gradio version
-        run: |
-          python -c "import gradio; print('Gradio version:', gradio.__version__)"
-
+          pip install pytest gradio[oauth] huggingface_hub
       - name: Run pytest with HF token
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
