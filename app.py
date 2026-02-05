@@ -156,9 +156,13 @@ def respond(
         from transformers import pipeline
         import torch
         if pipe is None:
-            pipe = pipeline(
+            '''pipe = pipeline(
                 "text-generation",
                 model="meta-llama/Llama-3.2-1B-Instruct"  # Is this the model that we want?
+            )'''
+            pipe = pipeline(
+                "text-generation",
+                model="microsoft/Phi-3-mini-4k-instruct"
             )
 
         prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
