@@ -158,7 +158,7 @@ def respond(
         if pipe is None:
             pipe = pipeline(
                 "text-generation",
-                model="distilgpt2", # microsoft/Phi-3-mini-4k-instruct
+                model="microsoft/Phi-3-mini-4k-instruct", 
             )
 
         prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
