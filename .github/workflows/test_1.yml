@@ -15,11 +15,16 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install dependencies from requirements.txt
         run: |
-          pip install pytest gradio[oauth] huggingface_hub
+          pip install -r requirements.txt
 
-      - name: Run pytest with HF token
+      - name: Print Gradio version
+        run: |
+          python -c "import gradio; print('Gradio version:', gradio.__version__)"
+
+      - name: Run pytest
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: pytest -q
+        run: |
+          pytest -q
