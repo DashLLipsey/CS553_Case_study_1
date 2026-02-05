@@ -17,7 +17,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest gradio[oauth]==4.24.0 huggingface_hub torch transformers
+          pip install -r requirements.txt
 
       - name: Print Gradio version
         run: |
