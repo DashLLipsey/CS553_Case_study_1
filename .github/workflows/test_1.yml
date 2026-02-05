@@ -15,16 +15,13 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies from requirements.txt
-        run: |
-          pip install -r requirements.txt
+      - name: Install Gradio (only)
+        run: pip install gradio==4.24.0
 
       - name: Print Gradio version
-        run: |
-          python -c "import gradio; print('Gradio version:', gradio.__version__)"
+        run: python -c "import gradio; print('Gradio version:', gradio.__version__)"
 
       - name: Run pytest
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          pytest -q
+        run: pytest -q
