@@ -163,7 +163,6 @@ def respond(
             pipe = pipeline(
                 "text-generation",
                 model="microsoft/Phi-3-mini-4k-instruct",
-                token=hf_token
             )
 
         prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
