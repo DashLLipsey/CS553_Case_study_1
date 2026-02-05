@@ -1,4 +1,4 @@
-transformers
-torch
 gradio[oauth]==4.24.0
-huggingface_hub==0.17.1
+pytest
+torch
+transformers
