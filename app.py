@@ -156,13 +156,9 @@ def respond(
         from transformers import pipeline
         import torch
         if pipe is None:
-            '''pipe = pipeline(
-                "text-generation",
-                model="meta-llama/Llama-3.2-1B-Instruct"  # Is this the model that we want? # Why is this a block comment now?
-            )'''
             pipe = pipeline(
                 "text-generation",
-                model="eta-llama/Llama-3.2-1B-Instruct", #microsoft/Phi-3-mini-4k-instruct
+                model="microsoft/Phi-3-mini-4k-instruct",
             )
 
         prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
