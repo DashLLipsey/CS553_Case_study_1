@@ -1,7 +1,7 @@
 import gradio as gr
 from huggingface_hub import InferenceClient
 import os
-
+import torch
 pipe = None
 stop_inference = False
 
@@ -154,14 +154,14 @@ def respond(
         print("[MODE] local")
         # Using local machine use the transformers pipeline to get model
         from transformers import pipeline
-        import torch
+
         if pipe is None:
             pipe = pipeline(
                 "text-generation",
                 model="microsoft/Phi-3-mini-4k-instruct", 
             )
 
-        prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
+        prompt = messages
         outputs = pipe(
             prompt,
             max_new_tokens=max_tokens,
@@ -170,8 +170,8 @@ def respond(
             top_p=top_p,
         )
         # Just output the answer, remove the prompt
-        response = outputs[0]["generated_text"][len(prompt):]
-        yield response.strip()
+        response = outputs[0]['generated_text'][-1]['content'].strip()
+        yield response
     else:
         print("[MODE] api")
         if hf_token is None or not getattr(hf_token, "token", None):
@@ -216,8 +216,7 @@ chatbot = gr.ChatInterface(
         gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature"),
         gr.Slider(minimum=0.1, maximum=1.0, value=0.95, step=0.05, label="Top-p (nucleus sampling)"),
         gr.Checkbox(label="Use Local Model", value=False),
-    ],
-    type="messages",
+    ]
 )
 
 
