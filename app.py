@@ -147,14 +147,14 @@ def respond(
                 ]
     # messages.extend(history)
     for item in history:
-    if isinstance(item, dict):
-        messages.append(item)
-    elif isinstance(item, (list, tuple)) and len(item) == 2:
-        user_msg, assistant_msg = item
-        if user_msg:
-            messages.append({"role": "user", "content": user_msg})
-        if assistant_msg:
-            messages.append({"role": "assistant", "content": assistant_msg})
+        if isinstance(item, dict):
+            messages.append(item)
+        elif isinstance(item, (list, tuple)) and len(item) == 2:
+            user_msg, assistant_msg = item
+            if user_msg:
+                messages.append({"role": "user", "content": user_msg})
+            if assistant_msg:
+                messages.append({"role": "assistant", "content": assistant_msg})
 
     messages.append({"role": "user", "content": message})
 
