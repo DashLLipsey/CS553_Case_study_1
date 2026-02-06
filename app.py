@@ -145,7 +145,17 @@ def respond(
                 {"role": "user", "content": EXAMPLE_INPUT_3},
                 {"role": "assistant", "content": EXAMPLE_OUTPUT_3}
                 ]
-    messages.extend(history)
+    # messages.extend(history)
+    for item in history:
+    if isinstance(item, dict):
+        messages.append(item)
+    elif isinstance(item, (list, tuple)) and len(item) == 2:
+        user_msg, assistant_msg = item
+        if user_msg:
+            messages.append({"role": "user", "content": user_msg})
+        if assistant_msg:
+            messages.append({"role": "assistant", "content": assistant_msg})
+
     messages.append({"role": "user", "content": message})
 
     response = ""
