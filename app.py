@@ -223,7 +223,7 @@ chatbot = gr.ChatInterface(
 
 with gr.Blocks(css=fancy_css) as demo:
     with gr.Row():
-        gr.Markdown("<h1 style='text-align: center;'> 🎵 Song Generator Chatbot🎵</h1>")
+        gr.Markdown("<h1 style='text-align: center;'> 🎵 Song Generator Chatbot 🎵</h1>")
         gr.LoginButton()
     chatbot.render()
 
