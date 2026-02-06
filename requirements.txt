@@ -9,7 +9,7 @@ httpcore==1.0.9
 httpx==0.28.1
 huggingface_hub==1.4.1
 idna==3.11
-numpy==2.4.2
+numpy
 packaging==26.0
 PyYAML==6.0.3
 regex==2026.1.15
