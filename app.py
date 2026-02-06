@@ -1,7 +1,8 @@
 import gradio as gr
 from huggingface_hub import InferenceClient
 import os
-import torch
+from huggingface_hub import is_offline_mode
+
 pipe = None
 stop_inference = False
 
@@ -164,7 +165,7 @@ def respond(
         print("[MODE] local")
         # Using local machine use the transformers pipeline to get model
         from transformers import pipeline
-
+        import torch
         if pipe is None:
             pipe = pipeline(
                 "text-generation",
