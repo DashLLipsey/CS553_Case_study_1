@@ -1,7 +1,6 @@
 import gradio as gr
 from huggingface_hub import InferenceClient
 import os
-from huggingface_hub import is_offline_mode
 
 pipe = None
 stop_inference = False
