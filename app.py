@@ -158,10 +158,11 @@ def respond(
         if pipe is None:
             pipe = pipeline(
                 "text-generation",
-                model="microsoft/Phi-3-mini-4k-instruct", 
+                model="LiquidAI/LFM2-350M", 
             )
 
         prompt = messages
+        prompt= ''.join([f"{m['role']}: {m['content']}" for m in prompt])
         outputs = pipe(
             prompt,
             max_new_tokens=max_tokens,
@@ -170,7 +171,7 @@ def respond(
             top_p=top_p,
         )
         # Just output the answer, remove the prompt
-        response = outputs[0]['generated_text'][-1]['content'].strip()
+        response = outputs[0]['generated_text'][len(prompt):].strip()
         yield response
     else:
         print("[MODE] api")
